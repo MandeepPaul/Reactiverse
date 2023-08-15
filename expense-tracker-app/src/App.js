@@ -26,6 +26,14 @@ const App = () => {
     },
   ];
 
+  const saveHandler = (expenseData) => {
+    const finalData = {
+      ...expenseData,
+    };
+
+    expenses.push(finalData);
+  };
+
   // return React.createElement(
   //   'div',
   //   {},
@@ -35,7 +43,7 @@ const App = () => {
 
   return (
     <div>
-      <NewExpense />
+      <NewExpense onSave={saveHandler} />
       <Expenses items={expenses} />
     </div>
   );
