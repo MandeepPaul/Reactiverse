@@ -1,10 +1,10 @@
-import React from "react";
+import { React, useState } from "react";
 
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 
 const App = () => {
-  const expenses = [
+  const initialList = [
     {
       id: "e1",
       title: "Toilet Paper",
@@ -26,12 +26,12 @@ const App = () => {
     },
   ];
 
-  const saveHandler = (expenseData) => {
-    const finalData = {
-      ...expenseData,
-    };
+  const [expenses, setExpense] = useState(initialList);
 
-    expenses.push(finalData);
+  const saveHandler = (newExpense) => {
+    setExpense((prevExpense) => {
+      return [newExpense, ...prevExpense];
+    });
   };
 
   // return React.createElement(
