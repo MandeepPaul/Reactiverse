@@ -25,6 +25,10 @@ const ExpenseForm = (props) => {
     }
   };
 
+  const cancleHandler = () => {
+    props.onCancle(false);
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
 
@@ -52,6 +56,7 @@ const ExpenseForm = (props) => {
           <input
             type="text"
             value={userInput.titleEntered}
+            required
             onChange={(event) =>
               inputChangeHandler("title", event.target.value)
             }
@@ -81,6 +86,9 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="submit" onClick={cancleHandler}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
