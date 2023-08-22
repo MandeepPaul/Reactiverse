@@ -1,11 +1,19 @@
-import React from 'react';
-
+import React, { useState } from "react";
+import Form from "./Components/Form";
+import Result from "./Components/Result";
 
 function App() {
-  return (
-    <div>
+  const [userArray, setUserArray] = useState([]);
 
-    </div>
+  const inputHandler = (user) => {
+    setUserArray((prevUserArray) => [...prevUserArray, user]);
+  };
+
+  return (
+    <>
+      <Form userInput={inputHandler} />
+      <Result usersData={userArray} />
+    </>
   );
 }
 
