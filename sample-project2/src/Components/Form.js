@@ -1,31 +1,45 @@
 import React, { useRef } from "react";
-import styles from "./AddUser.module.css";
-import buttonStyles from "./button.module.css";
+import Card from "./UI/Card";
+import Button from "./UI/Button";
+
+import classes from "./AddUser.module.css";
 
 const Form = (props) => {
   const nameRef = useRef();
   const ageRef = useRef();
 
-  const authenticator = () => {
+  const authenticator = (event) => {
+    event.preventDefault();
     const user = {
       key: Math.random().toString(),
       name: nameRef.current.value,
       age: ageRef.current.value,
     };
+    console.log(user.age + " " + user.name);
 
-    user.age > 0 && props.userInput(user);
+    //Better way than (user.name === "")
+    if (user.name.trim().length === 0 || user.age.trim().length === 0) {
+      props.error(`Please enter a valid name and age(non empty values)`);
+    } else if (user.age < 1) {
+      props.error(`Please enter a valid age (> 0)`);
+    } else {
+      props.userInput(user);
+    }
+
+    nameRef.current.value = "";
+    ageRef.current.value = "";
   };
 
   return (
-    <div className={styles.input}>
-      <label>Username</label>
-      <input type="text" ref={nameRef}></input>
-      <label>Age</label>
-      <input type="number" ref={ageRef}></input>
-      <button className={buttonStyles.button} onClick={authenticator}>
-        Add User
-      </button>
-    </div>
+    <Card className={classes.input}>
+      <form onSubmit={authenticator}>
+        <label>Username</label>
+        <input type="text" ref={nameRef}></input>
+        <label>Age</label>
+        <input type="number" ref={ageRef}></input>
+        <Button type="submit">Add User</Button>
+      </form>
+    </Card>
   );
 };
 
