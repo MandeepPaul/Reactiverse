@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
+
 import Form from "./Components/Form";
 import Result from "./Components/Result";
 import ErrorMode from "./Components/ErrorMode";
@@ -21,9 +23,11 @@ function App() {
 
   return (
     <>
-      {errorMessage !== null ? (
-        <ErrorMode message={errorMessage} reset={resetErrorMode} />
-      ) : null}
+      {errorMessage !== null &&
+        ReactDOM.createPortal(
+          <ErrorMode message={errorMessage} reset={resetErrorMode} />,
+          document.getElementById("backdrop-root")
+        )}
       <Form error={errorHandler} userInput={inputHandler} />
       <Result usersData={userArray} />
     </>
