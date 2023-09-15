@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .custom-button {
+    @apply border-2 px-2 border-indigo-500 drop-shadow-lg hover:rounded-2xl hover:font-semibold hover:text-indigo-600;
+  }
+}
+
+/* @media (min-width: 768px) {
+} */
