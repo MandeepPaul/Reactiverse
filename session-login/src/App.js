@@ -1,12 +1,27 @@
-// import Header from "./Components/Header";
+import React, { useState } from "react";
+import Header from "./Components/Header";
 import LoginPage from "./Components/LoginPage";
 
 function App() {
+  const [isLogin, setLogin] = useState(false);
+
+  const loginHandler = () => {
+    console.log("here");
+    setLogin(true);
+  };
+
+  const logoutHandler = () => {
+    setLogin(false);
+  };
+
   return (
-    <div className="">
-      {/* <Header name="Mandeep" /> */}
-      <LoginPage />
-    </div>
+    <>
+      {isLogin ? (
+        <Header logout={logoutHandler} name="Mandeep" />
+      ) : (
+        <LoginPage submit={loginHandler} />
+      )}
+    </>
   );
 }
 

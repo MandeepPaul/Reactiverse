@@ -1,48 +1,48 @@
-import React from "react";
+import React, { useRef } from "react";
+import Card from "./UI/Card/Card";
+import Button from "./UI/Button/Button";
+import Input from "./UI/Input/inputField";
 
 const LoginPage = (props) => {
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+
   const formSubmitHandler = (event) => {
+    console.log(
+      `${usernameRef.current.getInputValue()} and ${passwordRef.current.getInputValue()}`
+    );
     event.preventDefault();
     props.submit();
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md">
+      <Card>
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
         <form className="space-y-4" onSubmit={formSubmitHandler}>
           <div>
-            <label htmlFor="username" className="block font-medium">
-              Username
-            </label>
-            <input
+            <label className="block font-medium">Username</label>
+            <Input
               type="text"
               id="username"
               name="username"
-              className="w-full border rounded-md py-2 px-3"
               placeholder="Enter your username"
+              ref={usernameRef}
             />
           </div>
           <div>
-            <label htmlFor="password" className="block font-medium">
-              Password
-            </label>
-            <input
+            <label className="block font-medium">Password</label>
+            <Input
               type="password"
               id="password"
               name="password"
-              className="w-full border rounded-md py-2 px-3"
               placeholder="Enter your password"
+              ref={passwordRef}
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-blue-600"
-          >
-            LOGIN
-          </button>
+          <Button onClick={formSubmitHandler}>LOGIN</Button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 };
