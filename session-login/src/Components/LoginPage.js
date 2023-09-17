@@ -24,10 +24,17 @@ const LoginPage = (props) => {
   };
 
   useEffect(() => {
-    if (isEmailValid && isPasswordValid) {
-      formValidity(true);
-    }
-    console.log("Validating..");
+    const timer = setTimeout(() => {
+      formValidity(isEmailValid && isPasswordValid);
+      console.log("Validating..");
+    }, 1500);
+
+    //CleanUp Function! Not called first time when component mount.
+    //Afterwards, it will be called everytime dependency change prior to the useEffect function executed.
+    return () => {
+      clearTimeout(timer);
+      console.log("CLEANUP FUNCTION");
+    };
   }, [isEmailValid, isPasswordValid]);
 
   const formSubmitHandler = (event) => {

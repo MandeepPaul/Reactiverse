@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import LoginPage from "./Components/LoginPage";
 
@@ -14,6 +14,13 @@ function App() {
     localStorage.removeItem("isLogin");
     setLogin(false);
   };
+
+  //In order to remain on home page when user refresh the page after login
+  useEffect(() => {
+    if (localStorage.getItem("isLogin") === "1") {
+      setLogin(true);
+    }
+  }, []);
 
   return (
     <>
