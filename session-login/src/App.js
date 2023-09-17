@@ -6,11 +6,12 @@ function App() {
   const [isLogin, setLogin] = useState(false);
 
   const loginHandler = () => {
-    console.log("here");
+    localStorage.setItem("isLogin", "1");
     setLogin(true);
   };
 
   const logoutHandler = () => {
+    localStorage.removeItem("isLogin");
     setLogin(false);
   };
 

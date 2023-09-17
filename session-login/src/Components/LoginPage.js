@@ -1,17 +1,38 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./UI/Card/Card";
 import Button from "./UI/Button/Button";
 import Input from "./UI/Input/inputField";
 
 const LoginPage = (props) => {
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+  const [isFormValid, formValidity] = useState(false);
+
+  const [isEmailValid, emailValidity] = useState(false);
+  const [isPasswordValid, passwordValidity] = useState(false);
+
+  const emailChangeHandler = (event) => {
+    console.log(event.target.value);
+
+    if (!event.target.value.includes("@")) emailValidity(false);
+    else emailValidity(true);
+  };
+
+  const passwordChangeHandler = (event) => {
+    console.log(event.target.value.trim().length);
+
+    if (event.target.value.trim().length < 6) passwordValidity(false);
+    else passwordValidity(true);
+  };
+
+  useEffect(() => {
+    if (isEmailValid && isPasswordValid) {
+      formValidity(true);
+    }
+    console.log("Validating..");
+  }, [isEmailValid, isPasswordValid]);
 
   const formSubmitHandler = (event) => {
-    console.log(
-      `${usernameRef.current.getInputValue()} and ${passwordRef.current.getInputValue()}`
-    );
     event.preventDefault();
+
     props.submit();
   };
 
@@ -21,13 +42,13 @@ const LoginPage = (props) => {
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
         <form className="space-y-4" onSubmit={formSubmitHandler}>
           <div>
-            <label className="block font-medium">Username</label>
+            <label className="block font-medium">Email</label>
             <Input
               type="text"
-              id="username"
-              name="username"
-              placeholder="Enter your username"
-              ref={usernameRef}
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              onChange={emailChangeHandler}
             />
           </div>
           <div>
@@ -37,10 +58,12 @@ const LoginPage = (props) => {
               id="password"
               name="password"
               placeholder="Enter your password"
-              ref={passwordRef}
+              onChange={passwordChangeHandler}
             />
           </div>
-          <Button onClick={formSubmitHandler}>LOGIN</Button>
+          <Button onClick={formSubmitHandler} disabled={!isFormValid}>
+            LOGIN
+          </Button>
         </form>
       </Card>
     </div>

@@ -1,27 +1,16 @@
-import React, { useRef, useImperativeHandle, forwardRef } from "react";
+import React from "react";
 
-const InputField = forwardRef((props, ref) => {
-  const inputRef = useRef();
-
-  useImperativeHandle(ref, () => ({
-    getInputValue: () => {
-      if (inputRef.current) {
-        return inputRef.current.value;
-      }
-      return "";
-    },
-  }));
-
+const InputField = (props, ref) => {
   return (
     <input
-      ref={inputRef}
       type={props.type}
       id={props.id}
       name={props.name}
       placeholder={props.placeholder}
-      className={`w-full border rounded-md py-2 px-3 ${props.className}`}
+      onChange={props.onChange}
+      className={`custom-field focus: outline-none focus:ring-2 focus:ring-green-400 invalid:focus-pink-600 invalid:text-pink-600 ${props.className}`}
     />
   );
-});
+};
 
 export default InputField;
