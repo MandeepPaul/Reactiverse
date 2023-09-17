@@ -27,13 +27,13 @@ const LoginPage = (props) => {
     const timer = setTimeout(() => {
       formValidity(isEmailValid && isPasswordValid);
       console.log("Validating..");
-    }, 1500);
+    }, 500);
 
     //CleanUp Function! Not called first time when component mount.
     //Afterwards, it will be called everytime dependency change prior to the useEffect function executed.
     return () => {
-      clearTimeout(timer);
       console.log("CLEANUP FUNCTION");
+      clearTimeout(timer);
     };
   }, [isEmailValid, isPasswordValid]);
 
@@ -68,7 +68,11 @@ const LoginPage = (props) => {
               onChange={passwordChangeHandler}
             />
           </div>
-          <Button onClick={formSubmitHandler} disabled={!isFormValid}>
+          <Button
+            onClick={formSubmitHandler}
+            className="w-full"
+            disabled={!isFormValid}
+          >
             LOGIN
           </Button>
         </form>

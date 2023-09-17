@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputField = (props, ref) => {
+const InputField = (props) => {
   return (
     <input
       type={props.type}

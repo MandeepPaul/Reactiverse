@@ -1,5 +1,6 @@
 import React from "react";
 
+import Home from "./Home";
 import Button from "./UI/Button/Button";
 
 const Header = (props) => {
@@ -7,12 +8,20 @@ const Header = (props) => {
     props.logout();
   };
   return (
-    <header className="flex gap-2 justify-end mx-3 my-1 bg-transparent">
-      <Button onClick={logoutHandler} className={"w-auto p-2"}>
-        LOGOUT
-      </Button>
-      <p>{props.name}</p>
-    </header>
+    <>
+      <header className="flex bg-slate-800 p-1 font-serif">
+        <h1 className=" w-full text-center pt-2 text-xl text-white">
+          Welcome Back {props.name}!
+        </h1>
+        <Button
+          onClick={logoutHandler}
+          className={"bg-cyan-800 text-cyan-300 hover:bg-cyan-700 p-2"}
+        >
+          Logout
+        </Button>
+      </header>
+      <Home />
+    </>
   );
 };
 
