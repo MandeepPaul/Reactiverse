@@ -32,6 +32,7 @@ function App() {
   return (
     //Components that should listen to context should be wrapped with PROVIDERS
     <AuthContext.Provider
+      //Settig up dynamic contect where we can pass functions
       value={{
         isLoggedIn: isLoggedIn,
         onLogout: logoutHandler,

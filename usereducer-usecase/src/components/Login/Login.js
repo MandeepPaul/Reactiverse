@@ -77,10 +77,11 @@ const Login = (props) => {
   const emailChangeHandler = (event) => {
     emailStateDispatch({ type: "USER_INPUT", val: event.target.value });
 
-    //We will not receive a latest state snapshot here because react schedule state change.
-    //setFormIsValid(emailState.isValid && passwordState.isValid);
+    /*We will not receive a latest state snapshot here because react schedule state change.
+    setFormIsValid(emailState.isValid && passwordState.isValid);
 
-    //We will use direct value here from event.
+    We will use direct value here from event.
+    */
     setFormIsValid(
       event.target.value.trim().includes("@") && passwordState.isValid
     );
