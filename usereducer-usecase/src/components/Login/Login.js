@@ -39,10 +39,6 @@ const passwordReducer = (state, action) => {
 };
 
 const Login = (props) => {
-  // const [enteredEmail, setEnteredEmail] = useState("");
-  // // const [emailIsValid, setEmailIsValid] = useState();
-  // const [enteredPassword, setEnteredPassword] = useState("");
-  // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
   /*
@@ -67,13 +63,16 @@ const Login = (props) => {
     const identifier = setTimeout(() => {
       console.log("Checking form validity!");
       setFormIsValid(emailState.isValid && passwordState.isValid);
-    }, 1000);
+    }, 500);
 
     return () => {
       console.log("CLEANUP");
       clearTimeout(identifier);
     };
-  }, [emailState, passwordState]);
+
+    //Further optimization of useEffect: Now useEffect will run if validity change not when value change!
+    //Helps to avoid unnecessary execution.
+  }, [emailState.isValid, passwordState.isValid]);
 
   const emailChangeHandler = (event) => {
     emailStateDispatch({ type: "USER_INPUT", val: event.target.value });
