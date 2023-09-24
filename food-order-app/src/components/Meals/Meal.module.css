@@ -1,0 +1,36 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 10px;
+}
+
+.firstColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.secondColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.amount {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* + Add Button */
+.secondColumn button {
+  align-self: end;
+  padding: 1px 20px;
+  font-size: small;
+  font-weight: 600;
+}
+
+.amountField {
+  width: 3rem;
+  padding-top: 4px;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./Header.module.css";
-import CartButton from "../CartButton/CartButton";
+import CartButton from "../../Cart/CartButton";
 import mealImage from "../../../asserts/meals.jpg";
 
 const Header = () => {
