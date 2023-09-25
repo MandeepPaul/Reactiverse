@@ -1,5 +1,5 @@
 import Meal from "./Meal";
-import Card from "../UI/Card/Card";
+import Card from "../../UI/Card/Card";
 import styles from "./MealList.module.css";
 
 const DUMMY_MEALS = [
@@ -30,12 +30,18 @@ const DUMMY_MEALS = [
 ];
 
 const MealList = () => {
+  const cartHandler = (data) => {
+    console.log(data);
+  };
+
   const mealList = DUMMY_MEALS.map((item) => (
     <Meal
+      id={item.id}
       key={item.id}
       itemName={item.name}
       description={item.description}
       price={item.price}
+      addtocart={cartHandler}
     />
   ));
 

@@ -1,12 +1,12 @@
 import React from "react";
 
 import styles from "./CartButton.module.css";
-import Button from "../UI/Button/Button";
+import Button from "../../UI/Button/Button";
 
 const Navigation = (props) => {
   return (
     <div className={styles.container}>
-      <Button className={styles.Button}>
+      <Button className={styles.Button} onClick={props.onClick}>
         <span>
           <svg
             width="20px"

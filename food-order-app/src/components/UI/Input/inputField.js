@@ -8,6 +8,9 @@ const InputField = (props) => {
       name={props.name}
       placeholder={props.placeholder}
       defaultValue={props.default}
+      min={props.min}
+      max={props.max}
+      step={props.step}
       onChange={props.onChange}
       className={`${styles.input} ${props.className}`}
     />
