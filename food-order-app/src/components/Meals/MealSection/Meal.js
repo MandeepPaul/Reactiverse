@@ -21,10 +21,13 @@ const Meal = (props) => {
   const formSubmitHandler = (event) => {
     event.preventDefault();
     const data = {
+      id: `${props.id}`,
       name: `${props.itemName}`,
       price: `${props.price}`,
       amount: `${quantity}`,
     };
+
+    console.log(data);
     props.addtocart(data); //Sending data to parent component
   };
 

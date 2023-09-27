@@ -1,6 +1,10 @@
+import { useContext } from "react";
+
 import Meal from "./Meal";
 import Card from "../../UI/Card/Card";
 import styles from "./MealList.module.css";
+
+import cartContext from "../../../store/cart-context";
 
 const DUMMY_MEALS = [
   {
@@ -30,8 +34,11 @@ const DUMMY_MEALS = [
 ];
 
 const MealList = () => {
-  const cartHandler = (data) => {
-    console.log(data);
+  const ctx = useContext(cartContext);
+
+  const addToChartHandler = (data) => {
+    ctx.mealList.push(data);
+    console.log(ctx.mealList);
   };
 
   const mealList = DUMMY_MEALS.map((item) => (
@@ -41,7 +48,7 @@ const MealList = () => {
       itemName={item.name}
       description={item.description}
       price={item.price}
-      addtocart={cartHandler}
+      addtocart={addToChartHandler}
     />
   ));
 

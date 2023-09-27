@@ -50,3 +50,29 @@
   text-align: center;
   font-weight: 600;
 }
+
+/* CartTotal */
+
+.priceSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.priceSection span {
+  align-self: self-end;
+  font-size: large;
+  font-weight: 500;
+}
+
+.priceSection div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+  font-weight: normal;
+}
+
+.priceSection button {
+  padding: 0.2rem 1rem;
+}

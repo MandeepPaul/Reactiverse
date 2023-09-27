@@ -1,15 +1,15 @@
 import styles from "./CartItem.module.css";
 import Button from "../UI/Button/Button";
 
-const CartItem = () => {
+const CartItem = (props) => {
   return (
     <>
       <div className={styles.container}>
         <div className={styles.column1}>
-          <span>Name</span>
+          <span>{props.name}</span>
           <div className={styles.pricelabel}>
-            <span>Price</span>
-            <label>x 1</label>
+            <span>{`$${props.price}`}</span>
+            <label>{`x ${props.label}`}</label>
           </div>
         </div>
         <div className={styles.column2}>
