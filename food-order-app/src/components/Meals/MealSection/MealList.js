@@ -36,9 +36,8 @@ const DUMMY_MEALS = [
 const MealList = () => {
   const ctx = useContext(cartContext);
 
-  const addToChartHandler = (data) => {
-    ctx.mealList.push(data);
-    console.log(ctx.mealList);
+  const addToCart = (data) => {
+    ctx.addItem(data);
   };
 
   const mealList = DUMMY_MEALS.map((item) => (
@@ -48,7 +47,7 @@ const MealList = () => {
       itemName={item.name}
       description={item.description}
       price={item.price}
-      addtocart={addToChartHandler}
+      addtocart={addToCart}
     />
   ));
 

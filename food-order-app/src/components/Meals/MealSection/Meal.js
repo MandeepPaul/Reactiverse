@@ -6,11 +6,7 @@ import Button from "../../UI/Button/Button";
 
 const Meal = (props) => {
   const [quantity, setQuantity] = useState(1);
-
-  //Inline CSS
-  const semiBoldStyle = {
-    fontWeight: "600",
-  };
+  const [validity, setValid] = useState(true);
 
   const price = `${props.price.toFixed(2)}`;
 
@@ -19,6 +15,12 @@ const Meal = (props) => {
   };
 
   const formSubmitHandler = (event) => {
+    if (quantity.length === 0 || quantity < 1 || quantity > 5) {
+      setValid(false);
+      return;
+    }
+
+    setValid(true);
     event.preventDefault();
     const data = {
       id: `${props.id}`,
@@ -27,22 +29,35 @@ const Meal = (props) => {
       amount: `${quantity}`,
     };
 
-    console.log(data);
+    // console.log(data);
     props.addtocart(data); //Sending data to parent component
+    setQuantity(1);
   };
 
   return (
     <li>
       <div className={styles.container}>
         <div className={styles.firstColumn}>
-          <span style={semiBoldStyle}>{props.itemName}</span>
+          <span
+            style={{
+              fontWeight: "600",
+            }}
+          >
+            {props.itemName}
+          </span>
           <span style={{ fontStyle: "italic" }}>{props.description}</span>
           <span style={{ color: "brown", fontWeight: "600" }}>{price}</span>
         </div>
 
         <form className={styles.secondColumn}>
           <div className={styles.amount}>
-            <label style={semiBoldStyle}>Amount</label>
+            <label
+              style={{
+                fontWeight: "600",
+              }}
+            >
+              Amount
+            </label>
             {/* OPTIONAL but for proper accessibility:
             + Two major disadvantages which are not immediately obvious:
 
@@ -56,7 +71,7 @@ const Meal = (props) => {
               id={props.id}
               className={styles.amountField}
               type="number"
-              default="1"
+              value={quantity}
               min="1"
               max="5"
               step="1"
@@ -64,6 +79,7 @@ const Meal = (props) => {
             />
           </div>
           <Button onClick={formSubmitHandler}>+Add</Button>
+          {!validity && <p>Please enter a valid amount (1-5).</p>}
         </form>
       </div>
       <hr />

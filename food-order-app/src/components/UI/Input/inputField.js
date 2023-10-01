@@ -6,6 +6,7 @@ const InputField = (props) => {
       type={props.type}
       id={props.id}
       name={props.name}
+      value={props.value}
       placeholder={props.placeholder}
       defaultValue={props.default}
       min={props.min}

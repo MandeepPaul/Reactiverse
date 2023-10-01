@@ -9,11 +9,11 @@ import cartContext from "../../store/cart-context";
 const CartContent = (props) => {
   const ctx = useContext(cartContext);
 
-  console.log(`cartList: ${ctx.mealList}`);
+  console.log(`cartList: ${ctx.items}`);
 
   return (
     <Modal reset={props.onClose}>
-      {ctx.mealList.map((item) => (
+      {ctx.items.map((item) => (
         <CartItem
           key={item.id}
           name={item.name}

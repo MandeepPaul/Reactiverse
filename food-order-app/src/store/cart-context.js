@@ -1,8 +1,9 @@
 import React from "react";
 
-//Default values
-const cartContext = React.createContext({
+//Default values when there is no activr PROVIDER higher up the tree.
+const CartContext = React.createContext({
   mealList: [],
+  quantity: 0,
 });
 
-export default cartContext;
+export default CartContext;

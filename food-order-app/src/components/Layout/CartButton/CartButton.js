@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import styles from "./CartButton.module.css";
 import Button from "../../UI/Button/Button";
 
-const Navigation = (props) => {
+import cartContext from "../../../store/cart-context";
+
+const CartButton = (props) => {
+  const ctx = useContext(cartContext);
+
   return (
     <div className={styles.container}>
       <Button className={styles.Button} onClick={props.onClick}>
@@ -26,10 +30,10 @@ const Navigation = (props) => {
         </span>
         <span className={styles.title}>Your Cart</span>
 
-        <span className={styles.badge}>0</span>
+        <span className={styles.badge}>{ctx.quantity}</span>
       </Button>
     </div>
   );
 };
 
-export default Navigation;
+export default CartButton;
