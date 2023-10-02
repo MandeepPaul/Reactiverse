@@ -4,12 +4,16 @@ import Button from "../UI/Button/Button";
 import classes from "./CartItem.module.css";
 import cartContext from "../../store/cart-context";
 
-const CartTotal = () => {
+const CartTotal = (props) => {
   const ctx = useContext(cartContext);
 
   const price = ctx.items.reduce((currentTotal, item) => {
     return +item.price * +item.amount + +currentTotal;
   }, 0);
+
+  const postOrderHandler = () => {
+    console.log("Ordering.....");
+  };
 
   return (
     <>
@@ -23,10 +27,10 @@ const CartTotal = () => {
       <div className={classes.container}>
         <h2>Grand Total</h2>
         <div className={classes.priceSection}>
-          <span>{`${price.toFixed(2)}`}</span>
+          <span>{`$${price.toFixed(2)}`}</span>
           <div>
-            <Button>Close</Button>
-            <Button>Order</Button>
+            <Button onClick={props.onClose}>Close</Button>
+            <Button onClick={postOrderHandler}>Order</Button>
           </div>
         </div>
       </div>

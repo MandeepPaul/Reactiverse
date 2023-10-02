@@ -10,14 +10,14 @@ import cartContext from "./store/cart-context";
 
 function App() {
   const [cartOverlay, setOverlay] = useState(false);
+
   const [cartItemList, setItems] = useState([]);
-  const [totalQuantity, setTotalQuantity] = useState(+0);
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   const addItemToCartHandler = (newItem) => {
     const existingIndex = cartItemList.findIndex(
       (existingItem) => existingItem.id === newItem.id
     );
-    // console.log(existingIndex);
 
     //In case, we add item that is already in the cart before.
     if (existingIndex >= 0) {
@@ -29,14 +29,46 @@ function App() {
         //Here we can add all price too but at the time of removeItemHandler, there will be an issue.
       };
 
-      cartItemList[existingIndex] = updatedExistingItem; //Replace the existing item with new quantity.
+      // cartItemList[existingIndex] = updatedExistingItem; //Recommended to maintain immutability. Not right approach!
+
+      setItems((prevItems) => {
+        const updatedCartItemList = [...prevItems];
+        updatedCartItemList[existingIndex] = updatedExistingItem; //Replace the existing item with new quantity.
+        return updatedCartItemList;
+      });
     } else {
-      cartItemList.push(newItem);
+      const updatedCartItemList = [...cartItemList, newItem];
+      setItems(updatedCartItemList);
     }
-    // console.log(cartItemList);
     setTotalQuantity((prevState) => +totalQuantity + +newItem.amount);
   };
-  const removeItemFromCartHandler = () => {};
+
+  const removeItemFromCartHandler = (removableItem) => {
+    const existingIndex = cartItemList.findIndex(
+      (existingItem) => existingItem.id === removableItem.id
+    );
+
+    const existingItem = cartItemList[existingIndex];
+
+    if (existingItem.amount >= 2) {
+      //When 2 or more items
+      const updatedExistingItem = {
+        ...existingItem,
+        amount: +existingItem.amount - +1,
+        //Here we can add all price too but at the time of removeItemHandler, there will be an issue.
+      };
+
+      setItems((prevItems) => {
+        const updatedCartItemList = [...prevItems];
+        updatedCartItemList[existingIndex] = updatedExistingItem; //Replace the existing item with new quantity.
+        return updatedCartItemList;
+      });
+    } else {
+      //when 1 item left
+      setItems(cartItemList.filter((item) => item.id !== removableItem.id));
+    }
+    setTotalQuantity((prevState) => +totalQuantity - +1);
+  };
 
   //--------Code-For-Overlay------------
   const showOverlay = () => {

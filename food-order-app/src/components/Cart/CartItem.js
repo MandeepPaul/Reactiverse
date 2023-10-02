@@ -2,6 +2,14 @@ import styles from "./CartItem.module.css";
 import Button from "../UI/Button/Button";
 
 const CartItem = (props) => {
+  const addButtonHandler = () => {
+    props.addition(props.item);
+  };
+
+  const removeButtonHandler = () => {
+    props.onRemove(props.item);
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -13,8 +21,8 @@ const CartItem = (props) => {
           </div>
         </div>
         <div className={styles.column2}>
-          <Button>-</Button>
-          <Button>+</Button>
+          <Button onClick={removeButtonHandler}>-</Button>
+          <Button onClick={addButtonHandler}>+</Button>
         </div>
       </div>
       <hr

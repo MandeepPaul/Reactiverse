@@ -29,7 +29,6 @@ const Meal = (props) => {
       amount: `${quantity}`,
     };
 
-    // console.log(data);
     props.addtocart(data); //Sending data to parent component
     setQuantity(1);
   };
