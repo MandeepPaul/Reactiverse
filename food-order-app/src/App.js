@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 
 import ReactDOM from "react-dom";
 
@@ -8,48 +8,41 @@ import CartContent from "./components/Cart/CartContent";
 
 import cartContext from "./store/cart-context";
 
-function App() {
-  const [cartOverlay, setOverlay] = useState(false);
+const defaultState = {
+  cartItemList: [],
+  totalQuantity: 0,
+};
 
-  const [cartItemList, setItems] = useState([]);
-  const [totalQuantity, setTotalQuantity] = useState(0);
+const cartReducer = (state, action) => {
+  let existingIndex = state.cartItemList.findIndex(
+    (existingItem) => existingItem.id === action.val.id
+  );
 
-  const addItemToCartHandler = (newItem) => {
-    const existingIndex = cartItemList.findIndex(
-      (existingItem) => existingItem.id === newItem.id
-    );
+  if (action.type === "ADD") {
+    let updateList;
 
-    //In case, we add item that is already in the cart before.
     if (existingIndex >= 0) {
-      const existingItem = cartItemList[existingIndex];
+      const existingItem = state.cartItemList[existingIndex];
 
       const updatedExistingItem = {
         ...existingItem,
-        amount: +existingItem.amount + +newItem.amount,
+        amount: +existingItem.amount + +action.val.amount,
         //Here we can add all price too but at the time of removeItemHandler, there will be an issue.
       };
 
-      // cartItemList[existingIndex] = updatedExistingItem; //Recommended to maintain immutability. Not right approach!
-
-      setItems((prevItems) => {
-        const updatedCartItemList = [...prevItems];
-        updatedCartItemList[existingIndex] = updatedExistingItem; //Replace the existing item with new quantity.
-        return updatedCartItemList;
-      });
+      updateList = [...state.cartItemList];
+      updateList[existingIndex] = updatedExistingItem; //Replace the existing item with new quantity.
     } else {
-      const updatedCartItemList = [...cartItemList, newItem];
-      setItems(updatedCartItemList);
+      updateList = [...state.cartItemList, action.val];
     }
-    setTotalQuantity((prevState) => +totalQuantity + +newItem.amount);
-  };
 
-  const removeItemFromCartHandler = (removableItem) => {
-    const existingIndex = cartItemList.findIndex(
-      (existingItem) => existingItem.id === removableItem.id
-    );
-
-    const existingItem = cartItemList[existingIndex];
-
+    return {
+      cartItemList: updateList,
+      totalQuantity: +state.totalQuantity + +action.val.amount,
+    };
+  } else if (action.type === "REMOVE") {
+    const existingItem = state.cartItemList[existingIndex];
+    let updatedCartItemList;
     if (existingItem.amount >= 2) {
       //When 2 or more items
       const updatedExistingItem = {
@@ -58,16 +51,34 @@ function App() {
         //Here we can add all price too but at the time of removeItemHandler, there will be an issue.
       };
 
-      setItems((prevItems) => {
-        const updatedCartItemList = [...prevItems];
-        updatedCartItemList[existingIndex] = updatedExistingItem; //Replace the existing item with new quantity.
-        return updatedCartItemList;
-      });
+      updatedCartItemList = [...state.cartItemList];
+      updatedCartItemList[existingIndex] = updatedExistingItem; //Replace the existing item with new quantity.
     } else {
       //when 1 item left
-      setItems(cartItemList.filter((item) => item.id !== removableItem.id));
+      updatedCartItemList = state.cartItemList.filter(
+        (item) => item.id !== action.val.id
+      );
     }
-    setTotalQuantity((prevState) => +totalQuantity - +1);
+
+    return {
+      cartItemList: updatedCartItemList,
+      totalQuantity: state.totalQuantity - +1,
+    };
+  }
+
+  return defaultState;
+};
+
+function App() {
+  const [cartOverlay, setOverlay] = useState(false);
+  const [currentState, dispatchCart] = useReducer(cartReducer, defaultState);
+
+  const addItemToCartHandler = (newItem) => {
+    dispatchCart({ type: "ADD", val: newItem });
+  };
+
+  const removeItemFromCartHandler = (removableItem) => {
+    dispatchCart({ type: "REMOVE", val: removableItem });
   };
 
   //--------Code-For-Overlay------------
@@ -80,8 +91,8 @@ function App() {
   };
   //-------------------------------------
   const CartContextHandler = {
-    items: cartItemList,
-    quantity: totalQuantity,
+    items: currentState.cartItemList,
+    quantity: currentState.totalQuantity,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
   };

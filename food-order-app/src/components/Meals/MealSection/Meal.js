@@ -45,7 +45,9 @@ const Meal = (props) => {
             {props.itemName}
           </span>
           <span style={{ fontStyle: "italic" }}>{props.description}</span>
-          <span style={{ color: "brown", fontWeight: "600" }}>{price}</span>
+          <span style={{ color: "brown", fontWeight: "600" }}>
+            {"$" + price}
+          </span>
         </div>
 
         <form className={styles.secondColumn}>
