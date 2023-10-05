@@ -28,13 +28,12 @@ const CartContent = (props) => {
     <Modal reset={props.onClose}>
       {ctx.items.map((item) => (
         <CartItem
-          item={item}
           key={item.id}
           name={item.name}
           price={item.price}
           label={item.amount}
-          addition={addItemHandler}
-          onRemove={removeItemHandler}
+          addition={addItemHandler.bind(null, item)} //bind pre-configures a function for future execution. Also, allow us to pre-configure the arguments when this function being executed.
+          onRemove={removeItemHandler.bind(null, item)}
         />
       ))}
       <CartTotal onClose={props.onClose} />
