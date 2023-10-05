@@ -13,8 +13,8 @@ const CartItem = (props) => {
           </div>
         </div>
         <div className={styles.column2}>
-          <Button onClick={props.addition}>-</Button>
-          <Button onClick={props.onRemove}>+</Button>
+          <Button onClick={props.onRemove}>-</Button>
+          <Button onClick={props.addition}>+</Button>
         </div>
       </div>
       <hr
