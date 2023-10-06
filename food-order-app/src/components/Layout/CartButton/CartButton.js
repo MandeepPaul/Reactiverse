@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import styles from "./CartButton.module.css";
 import Button from "../../UI/Button/Button";
@@ -6,11 +6,29 @@ import Button from "../../UI/Button/Button";
 import cartContext from "../../../store/cart-context";
 
 const CartButton = (props) => {
+  const [animateButton, setAnimate] = useState(false);
   const ctx = useContext(cartContext);
+  const { items } = ctx;
+
+  const btnClasses = `${styles.Button} ${animateButton ? styles.bump : ""}`;
+
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+    setAnimate(true);
+    const timer = setTimeout(() => {
+      setAnimate(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [items]);
 
   return (
     <div className={styles.container}>
-      <Button className={styles.Button} onClick={props.onClick}>
+      <Button className={btnClasses} onClick={props.onClick}>
         <span>
           <svg
             width="20px"
