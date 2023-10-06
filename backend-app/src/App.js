@@ -6,10 +6,13 @@ import "./App.css";
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   let content = <p>Found no movies.</p>;
 
   function fetchMovieHandler() {
+    setLoading(true);
+
     fetch("https://swapi.dev/api/films/")
       .then((response) => {
         return response.json();
@@ -23,11 +26,15 @@ function App() {
             releaseDate: movieData.release_date,
           };
         });
+        console.log(transformedMovies);
         setMovies(transformedMovies);
+        setLoading(false);
       });
   }
 
-  if (movies.length !== 0) {
+  if (loading) {
+    content = <p>Loading...</p>;
+  } else if (movies.length !== 0) {
     content = <MoviesList movies={movies} />;
   }
 
