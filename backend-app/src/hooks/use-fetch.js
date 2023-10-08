@@ -8,57 +8,41 @@ const useFetch = (url) => {
     setError(null);
 
     if (!["GET", "POST"].includes(method)) {
-      console.log("Method nt suppoted yet");
       setError("Invalid Request!");
+      console.log("Method not supported yet");
       return;
     }
 
-    if (method === "GET") {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Something went wrong while fetching data!");
-        }
-        const data = await response.json();
-
-        const loadedMovies = [];
-
-        for (const key in data) {
-          loadedMovies.push({
-            id: key,
-            title: data[key].title,
-            openingText: data[key].openingText,
-            releaseDate: data[key].releaseDate,
-          });
-        }
-
-        setResult(loadedMovies);
-      } catch (error) {
-        console.log(error.message);
-        setError("Fetching data failed!");
-      }
-    } else if (method === "POST") {
-      fetch(url, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        header: {
+    try {
+      const response = await fetch(url, {
+        method: method,
+        body: payload ? JSON.stringify(payload) : null,
+        headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Sending POST request failed!");
-          }
-        })
-        .catch((err) => {
-          setError(err);
-        });
+      });
+
+      if (!response.ok) {
+        throw new Error("Something went wrong while fetching data!");
+      }
+
+      const data = await response.json();
+
+      if (method === "GET") {
+        const loadedMovies = Object.entries(data).map(([id, movie]) => ({
+          id: id,
+          title: movie.title,
+          openingText: movie.openingText,
+          releaseDate: movie.releaseDate,
+        }));
+
+        setResult(loadedMovies);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setError("Fetching data failed!");
     }
   };
-
-  //   useEffect(() => {
-  //     fetchHandler();
-  //   }, [fetchHandler]);
 
   return {
     result,

@@ -13,11 +13,9 @@ function App() {
     "https://reactiverse-2842e-default-rtdb.firebaseio.com/movie.json"
   );
 
-  let content;
-
   const fetchMovieHandler = async () => {
     setLoading(true);
-    await fetchRequest("GET");
+    await fetchRequest();
     setLoading(false);
   };
 
@@ -30,6 +28,8 @@ function App() {
       setMovies(result);
     }
   }, [result, error]);
+
+  let content;
 
   if (loading) {
     content = <p>Loading...</p>;
