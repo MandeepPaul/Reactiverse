@@ -62,6 +62,11 @@ const cartReducer = (state, action) => {
       cartItemList: updatedCartItemList,
       totalQuantity: state.totalQuantity - +1,
     };
+  } else if (action.type === "EXISTING") {
+    return {
+      cartItemList: action.list,
+      totalQuantity: action.amount,
+    };
   }
 
   return defaultState;
@@ -82,20 +87,48 @@ const CartProvider = (props) => {
     dispatchCart({ type: "REMOVE", val: removableItem });
   };
 
+  // Function to get the current formatted time
+  function getCurrentTime() {
+    const currentTime = new Date();
+    return currentTime.toLocaleTimeString();
+  }
+
+  // Function to get the current formatted date
+  function getCurrentDate() {
+    const currentDate = new Date();
+    return currentDate.toLocaleDateString();
+  }
+
+  const updatedData = {
+    ...currentState,
+    time: getCurrentTime(),
+    date: getCurrentDate(),
+  };
+
   const submitOrderHandler = async () => {
-    console.log("Ordering.....");
-    fetchRequest("PUT", currentState);
+    console.log("Order Placed!");
+    fetchRequest("POST", updatedData);
     dispatchCart({ type: "SUBMIT" });
+
+    localStorage.clear();
     console.log(currentState);
   };
+
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    dispatchCart({
+      type: "EXISTING",
+      list: cartData.cartItemList,
+      amount: cartData.totalQuantity,
+    });
+  }, []);
 
   useEffect(() => {
     if (initialRender) {
       setInitialRender(false);
       return;
     }
-    fetchRequest("PUT", currentState);
-    console.log("Inside useEffect");
+    localStorage.setItem("cart", JSON.stringify(currentState));
   }, [currentState]);
 
   //-------------------------------------
