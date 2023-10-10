@@ -38,7 +38,7 @@ const useFetch = (url) => {
         setResult(loadedCart);
       }
     } catch (error) {
-      console.log(error.message);
+      //   console.log(error.message);
       setError("Fetching data failed!");
     }
   };

@@ -105,11 +105,14 @@ const CartProvider = (props) => {
     date: getCurrentDate(),
   };
 
-  const submitOrderHandler = async () => {
-    console.log("Order Placed!");
+  const submitOrderHandler = () => {
     fetchRequest("POST", updatedData);
-    dispatchCart({ type: "SUBMIT" });
+    if ((prevState) => prevState.error) {
+      return;
+    }
 
+    console.log("Order Placed!");
+    dispatchCart({ type: "SUBMIT" });
     localStorage.clear();
     console.log(currentState);
   };
@@ -129,7 +132,10 @@ const CartProvider = (props) => {
       return;
     }
     localStorage.setItem("cart", JSON.stringify(currentState));
-  }, [currentState]);
+    console.log("Inside useEffect");
+    error && console.log(error);
+    result && console.log(result);
+  }, [currentState, error, result, initialRender]);
 
   //-------------------------------------
   const CartContextHandler = {
