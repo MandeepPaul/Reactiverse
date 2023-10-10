@@ -1,17 +1,18 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
 import CartContext from "./cart-context";
+import useFetch from "../hooks/use-fetch";
 
 const defaultState = {
   cartItemList: [],
   totalQuantity: 0,
 };
 const cartReducer = (state, action) => {
-  let existingIndex = state.cartItemList.findIndex(
-    (existingItem) => existingItem.id === action.val.id
-  );
-
   if (action.type === "ADD") {
+    let existingIndex = state.cartItemList.findIndex(
+      (existingItem) => existingItem.id === action.val.id
+    );
+
     let updateList;
 
     if (existingIndex >= 0) {
@@ -34,6 +35,10 @@ const cartReducer = (state, action) => {
       totalQuantity: +state.totalQuantity + +action.val.amount,
     };
   } else if (action.type === "REMOVE") {
+    let existingIndex = state.cartItemList.findIndex(
+      (existingItem) => existingItem.id === action.val.id
+    );
+
     const existingItem = state.cartItemList[existingIndex];
     let updatedCartItemList;
     if (existingItem.amount >= 2) {
@@ -64,6 +69,10 @@ const cartReducer = (state, action) => {
 
 const CartProvider = (props) => {
   const [currentState, dispatchCart] = useReducer(cartReducer, defaultState);
+  const [initialRender, setInitialRender] = useState(true);
+  const { result, error, fetchRequest } = useFetch(
+    "https://reactiverse-2842e-default-rtdb.firebaseio.com/reactMeals.json"
+  );
 
   const addItemToCartHandler = (newItem) => {
     dispatchCart({ type: "ADD", val: newItem });
@@ -73,12 +82,29 @@ const CartProvider = (props) => {
     dispatchCart({ type: "REMOVE", val: removableItem });
   };
 
+  const submitOrderHandler = async () => {
+    console.log("Ordering.....");
+    fetchRequest("PUT", currentState);
+    dispatchCart({ type: "SUBMIT" });
+    console.log(currentState);
+  };
+
+  useEffect(() => {
+    if (initialRender) {
+      setInitialRender(false);
+      return;
+    }
+    fetchRequest("PUT", currentState);
+    console.log("Inside useEffect");
+  }, [currentState]);
+
   //-------------------------------------
   const CartContextHandler = {
     items: currentState.cartItemList,
     quantity: currentState.totalQuantity,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    submitOrder: submitOrderHandler,
   };
 
   return (
