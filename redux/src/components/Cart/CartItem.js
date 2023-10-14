@@ -1,21 +1,18 @@
 import classes from "./CartItem.module.css";
 
-//useSelector is the custom hook made by the react-redux team.
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../store/cartSlice";
 
 const CartItem = (props) => {
-  const { title, quantity, total, price } = props.item;
+  const { title, quantity, price } = props.item;
 
-  //Redux will automatically set up subscription to Redux store for this component.
-  //It will automatically execute whenever value in the store update.
-  const counter = useSelector((state) => state.counter);
   const dispatch = useDispatch();
 
   const addOnHandler = () => {
-    dispatch({ type: "incrementby", amount: 5 });
+    dispatch(cartActions.addToCart(props.item));
   };
   const onRemoveHandler = () => {
-    dispatch({ type: "decrement" });
+    dispatch(cartActions.removeFromCart(props.item));
   };
 
   return (
@@ -23,13 +20,13 @@ const CartItem = (props) => {
       <header>
         <h3>{title}</h3>
         <div className={classes.price}>
-          ${total.toFixed(2)}{" "}
-          <span className={classes.itemprice}>(${price.toFixed(2)}/item)</span>
+          ${price * quantity}{" "}
+          <span className={classes.itemprice}>(${price}/item)</span>
         </div>
       </header>
       <div className={classes.details}>
         <div className={classes.quantity}>
-          x <span>{counter}</span>
+          x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
           <button onClick={onRemoveHandler}>-</button>
