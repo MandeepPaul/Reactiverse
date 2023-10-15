@@ -21,7 +21,7 @@ const ProductItem = (props) => {
   };
 
   return (
-    <li className={classes.item}>
+    <li className={classes.item} key={id}>
       <Card>
         <header>
           <h3>{title}</h3>
