@@ -29,7 +29,7 @@ const useFetch = (url) => {
       const data = await response.json();
 
       if (method === "GET") {
-        setResult(data["-NgoDCiByux7TQ4Ab0Ms"]);
+        setResult(data);
       }
     } catch (error) {
       //   console.log(error.message);

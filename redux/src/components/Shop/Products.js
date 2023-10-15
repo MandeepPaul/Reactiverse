@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 import useFetch from "../../hooks/use-fetch";
 import ProductItem from "./ProductItem";
@@ -6,6 +6,7 @@ import classes from "./Products.module.css";
 
 const Products = () => {
   const [productsItems, setProductItems] = useState(null);
+  const [message, setMessage] = useState("Loading...");
   const { result, error, fetchRequest } = useFetch(
     "https://reactiverse-2842e-default-rtdb.firebaseio.com/AromaOfIndia.json"
   );
@@ -23,7 +24,10 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    if (error) return console.log(error);
+    if (error) {
+      setMessage(error);
+      return console.log(error);
+    }
 
     setProductItems(result);
   }, [result, error]);
@@ -32,7 +36,7 @@ const Products = () => {
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
       {productsItems === null ? (
-        <span>Loading...</span>
+        <span>{message}</span>
       ) : (
         <ul>
           {productsItems.map((item) => (

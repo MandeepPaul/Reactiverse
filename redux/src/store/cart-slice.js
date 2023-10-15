@@ -4,13 +4,17 @@ const initialState = {
   cartItemList: [],
   totalAmount: 0,
   totalQuantity: 0,
-  showCart: false,
 };
 
 const cartState = createSlice({
   name: "counter",
   initialState,
   reducers: {
+    replaceCart(state, action) {
+      state.cartItemList = action.payload.cartItemList || [];
+      state.totalAmount = action.payload.totalAmount;
+      state.totalQuantity = action.payload.totalQuantity;
+    },
     addToCart(state, action) {
       let existingIndex = state.cartItemList.findIndex(
         (existingItem) => existingItem.id === action.payload.id
@@ -43,9 +47,6 @@ const cartState = createSlice({
         );
       }
       state.totalQuantity--;
-    },
-    showCart(state) {
-      state.showCart = !state.showCart;
     },
   },
 });
