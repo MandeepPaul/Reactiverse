@@ -46,6 +46,7 @@ const cartState = createSlice({
           (item) => item.id !== action.payload.id
         );
       }
+      state.totalAmount -= +action.payload.price;
       state.totalQuantity--;
     },
   },
