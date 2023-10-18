@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { sendCartData } from "./store/cart-slice";
+import { sendCartData } from "./store/cart-action";
 
 import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
@@ -18,12 +18,11 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(sendCartData(cart, firstRender));
+
     if (firstRender) {
       firstRender = false;
-      return;
     }
-
-    dispatch(sendCartData(cart));
   }, [cart, dispatch]);
 
   return (
