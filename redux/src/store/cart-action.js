@@ -66,47 +66,54 @@ export const sendCartData = (cart, flag) => {
       return;
     }
 
-    //This part for PUT request after first render.
-    dispatch(
-      uiActions.showNotification({
-        status: "pending",
-        title: "Sending...",
-        message: "Sending cart data!",
-      })
-    );
+    //To prevent sending a cart data if it haven't changed locally.
+    if (cart.changed) {
+      //This part for PUT request after first render.
+      dispatch(
+        uiActions.showNotification({
+          status: "pending",
+          title: "Sending...",
+          message: "Sending cart data!",
+        })
+      );
 
-    const sendData = async () => {
-      const response = await fetch(
-        "https://reactiverse-2842e-default-rtdb.firebaseio.com/AromaUsers.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
+      const sendData = async () => {
+        const response = await fetch(
+          "https://reactiverse-2842e-default-rtdb.firebaseio.com/AromaUsers.json",
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              cartItemList: cart.cartItemList,
+              totalAmount: cart.totalAmount,
+              totalQuantity: cart.totalQuantity,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Sending data failed!");
         }
-      );
+      };
 
-      if (!response.ok) {
-        throw new Error("Sending data failed!");
+      try {
+        await sendData();
+
+        dispatch(
+          uiActions.showNotification({
+            status: "success",
+            title: "Success!",
+            message: "Sent cart data successfully!",
+          })
+        );
+      } catch (error) {
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "Error!",
+            message: "Sending cart data failed!",
+          })
+        );
       }
-    };
-
-    try {
-      await sendData();
-
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "Success!",
-          message: "Sent cart data successfully!",
-        })
-      );
-    } catch (error) {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "Error!",
-          message: "Sending cart data failed!",
-        })
-      );
     }
   };
 };
