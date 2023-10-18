@@ -12,8 +12,9 @@ const cartState = createSlice({
   reducers: {
     replaceCart(state, action) {
       state.cartItemList = action.payload.cartItemList || [];
-      state.totalAmount = action.payload.totalAmount;
-      state.totalQuantity = action.payload.totalQuantity;
+      state.totalAmount =
+        parseFloat(action.payload.totalAmount).toFixed(2) || +0;
+      state.totalQuantity = action.payload.totalQuantity || +0;
     },
     addToCart(state, action) {
       let existingIndex = state.cartItemList.findIndex(
@@ -28,7 +29,9 @@ const cartState = createSlice({
         state.cartItemList.push(action.payload);
       }
 
-      state.totalAmount += +action.payload.price;
+      state.totalAmount = (
+        parseFloat(state.totalAmount) + parseFloat(action.payload.price)
+      ).toFixed(2);
       state.totalQuantity++;
     },
     removeFromCart(state, action) {
@@ -46,7 +49,9 @@ const cartState = createSlice({
           (item) => item.id !== action.payload.id
         );
       }
-      state.totalAmount -= +action.payload.price;
+      state.totalAmount = (
+        parseFloat(state.totalAmount) - parseFloat(action.payload.price)
+      ).toFixed(2);
       state.totalQuantity--;
     },
   },
