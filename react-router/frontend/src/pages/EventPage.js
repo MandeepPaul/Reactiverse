@@ -1,7 +1,23 @@
+import EventsList from "../components/EventsList";
+
+const DUMMY_EVENTS = [
+  {
+    id: "e1",
+    title: "Halloween",
+  },
+  {
+    id: "e2",
+    title: "Christman",
+  },
+  {
+    id: "e3",
+    title: "New Year",
+  },
+];
 const EventPage = () => {
   return (
     <>
-      <h1>EventPage</h1>
+      <EventsList events={DUMMY_EVENTS} />
     </>
   );
 };
