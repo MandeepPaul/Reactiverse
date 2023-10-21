@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import EventItem from "../components/EventItem";
+// import EventItem from "../components/EventItem";
 
 const EventDetail = () => {
   const params = useParams();

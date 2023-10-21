@@ -14,6 +14,10 @@ const EventPage = () => {
 export const loader = async () => {
   const response = await fetch("http://localhost:8080/events");
   if (!response.ok) {
+    throw new Response(
+      JSON.stringify({ message: "Error while fetching events data!" }),
+      { status: 500 }
+    );
   } else {
     return response;
   }
