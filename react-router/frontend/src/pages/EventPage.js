@@ -1,25 +1,22 @@
+import { useLoaderData } from "react-router-dom";
 import EventsList from "../components/EventsList";
 
-const DUMMY_EVENTS = [
-  {
-    id: "e1",
-    title: "Halloween",
-  },
-  {
-    id: "e2",
-    title: "Christman",
-  },
-  {
-    id: "e3",
-    title: "New Year",
-  },
-];
 const EventPage = () => {
+  const data = useLoaderData();
+
   return (
     <>
-      <EventsList events={DUMMY_EVENTS} />
+      <EventsList events={data.events} />
     </>
   );
+};
+
+export const loader = async () => {
+  const response = await fetch("http://localhost:8080/events");
+  if (!response.ok) {
+  } else {
+    return response;
+  }
 };
 
 export default EventPage;
