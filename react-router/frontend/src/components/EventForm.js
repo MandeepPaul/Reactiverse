@@ -103,6 +103,10 @@ export const action = async ({ request, params }) => {
     body: JSON.stringify(formValues),
   });
 
+  if (response.status === 422) {
+    return response;
+  }
+
   if (!response.ok) {
     throw json({ message: "Sending event data failed!" }, { status: 500 });
   }
