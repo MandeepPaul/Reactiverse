@@ -36,5 +36,11 @@ export const action = async ({ request, params }) => {
 
   const resData = await response.json(); //Return response with token if login/signup went well
   localStorage.setItem("token", resData.token); //Will then use to send DELETE, POST request
+
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 1); //It will creates a date that is one hour in the future.
+
+  localStorage.setItem("expirationDate", expiration.toISOString());
+
   return redirect("/");
 };
