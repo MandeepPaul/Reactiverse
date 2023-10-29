@@ -68,7 +68,7 @@ export default function EventDetails() {
       {isDeleting && (
         <Modal onClose={cancelDelete}>
           <h2>Are you sure?</h2>
-          <p>Action cannot be undone!</p>
+          <p>Action cannot be undo!</p>
           <div className="form-actions">
             {isPendingDeletion && <p>Deleting, Please wait...</p>}
             {!isPendingDeletion && (

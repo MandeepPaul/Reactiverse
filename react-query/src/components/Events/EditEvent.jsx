@@ -10,8 +10,11 @@ import EventForm from "./EventForm.jsx";
 
 export default function EditEvent() {
   const navigate = useNavigate();
+  // const { state } = useNavigation();
   const params = useParams();
   const id = params.id;
+
+  // const submit = useSubmit();
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["events", { event: id }],
@@ -28,7 +31,7 @@ export default function EditEvent() {
       queryClient.setQueryData(["events", { event: id }], data.event);
       return { prevEvent };
     },
-    onError: (error, data, context) => {
+    onError: (context) => {
       queryClient.setQueryData(["events", { event: id }], context.prevEvent);
     },
     onSettled: () => {
@@ -37,6 +40,7 @@ export default function EditEvent() {
   });
 
   function handleSubmit(formData) {
+    // submit(formData, { method: "PUT" });
     mutate({ id: id, event: formData });
     navigate("../");
   }
@@ -85,3 +89,21 @@ export default function EditEvent() {
 
   return <Modal onClose={handleClose}>{content}</Modal>;
 }
+
+// export const loader = ({ params }) => {
+//   return queryClient.fetchQuery({
+//     queryKey: ["events", { event: params.id }],
+//     queryFn: ({ signal }) => fetchEvent({ id: params.id, signal }),
+//   });
+// };
+
+// export async function action({ request, params }) {
+//   const formData = await request.formData();
+//   console.log(formData);
+//   const updatedEventData = Object.fromEntries(formData);
+//   console.log(updatedEventData);
+
+//   await updateEvent({ id: params.id, event: updatedEventData });
+//   await queryClient.invalidateQueries(["events"]);
+//   return redirect("../");
+// }
