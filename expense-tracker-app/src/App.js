@@ -1,10 +1,10 @@
-import React from "react";
+import { React, useState } from "react";
 
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 
 const App = () => {
-  const expenses = [
+  const initialList = [
     {
       id: "e1",
       title: "Toilet Paper",
@@ -26,6 +26,14 @@ const App = () => {
     },
   ];
 
+  const [expenses, setExpense] = useState(initialList);
+
+  const saveHandler = (newExpense) => {
+    setExpense((prevExpense) => {
+      return [newExpense, ...prevExpense];
+    });
+  };
+
   // return React.createElement(
   //   'div',
   //   {},
@@ -35,7 +43,7 @@ const App = () => {
 
   return (
     <div>
-      <NewExpense />
+      <NewExpense onSave={saveHandler} />
       <Expenses items={expenses} />
     </div>
   );

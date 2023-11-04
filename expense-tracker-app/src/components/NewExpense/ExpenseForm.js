@@ -2,42 +2,12 @@ import React, { useState } from "react";
 
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
-  // const [titleEntered, setEnteredTitle] = useState("");
-  // const [amountEntered, setEnteredAmount] = useState("");
-  // const [dateEntered, setEnteredDate] = useState("");
+const ExpenseForm = (props) => {
   const [userInput, setUserInput] = useState({
     titleEntered: "",
     amountEntered: "",
     dateEntered: "",
   });
-
-  // const titleChangeHandler = (event) => {
-  //   setEnteredTitle(event.target.value);
-  //   // setUserInput({
-  //   //   ...userInput,
-  //   //   titleEntered: event.target.value,
-  //   // });
-  //   // setUserInput((prevState) => {
-  //   //   return { ...prevState, titleEntered: event.target.value };
-  //   // });
-  // };
-
-  // const amountChangeHandler = (event) => {
-  //   setEnteredAmount(event.target.value);
-  //   // setUserInput({
-  //   //   ...userInput,
-  //   //   amountEntered: event.target.value,
-  //   // });
-  // };
-
-  // const dateChangeHandler = (event) => {
-  //   setEnteredDate(event.target.value);
-  //   // setUserInput({
-  //   //   ...userInput,
-  //   //   dateEntered: event.target.value,
-  //   // });
-  // };
 
   const inputChangeHandler = (identifier, value) => {
     if (identifier === "title") {
@@ -55,8 +25,14 @@ const ExpenseForm = () => {
     }
   };
 
+  const cancleHandler = () => {
+    props.onCancle(false);
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
+
+    console.log(userInput.dateEntered);
 
     const expenseData = {
       title: userInput.titleEntered,
@@ -64,13 +40,12 @@ const ExpenseForm = () => {
       date: new Date(userInput.dateEntered),
     };
 
-    console.log(expenseData);
+    console.log(expenseData.date);
+
+    props.onSave(expenseData);
+
     // Resetting the values for next use;
-    setUserInput((prevState) => {
-      return { titleEntered: "", dateEntered: "", amountEntered: "" };
-    }); // setEnteredTitle("");
-    // setEnteredAmount("");
-    // setEnteredDate("");
+    setUserInput({ titleEntered: "", dateEntered: "", amountEntered: "" });
   };
 
   return (
@@ -81,6 +56,7 @@ const ExpenseForm = () => {
           <input
             type="text"
             value={userInput.titleEntered}
+            required
             onChange={(event) =>
               inputChangeHandler("title", event.target.value)
             }
@@ -110,6 +86,9 @@ const ExpenseForm = () => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="submit" onClick={cancleHandler}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
