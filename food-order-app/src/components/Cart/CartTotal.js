@@ -12,7 +12,7 @@ const CartTotal = (props) => {
   }, 0);
 
   const postOrderHandler = () => {
-    console.log("Ordering.....");
+    ctx.submitOrder();
   };
 
   return (

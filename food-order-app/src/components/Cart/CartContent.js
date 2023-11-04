@@ -9,8 +9,6 @@ import cartContext from "../../store/cart-context";
 const CartContent = (props) => {
   const ctx = useContext(cartContext);
 
-  console.log(...ctx.items);
-
   const addItemHandler = (item) => {
     //Resetting quantity to one
     const newItem = {
